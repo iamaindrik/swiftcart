@@ -1,0 +1,57 @@
+{% extends 'base.html' %}{% block content %}
+<h1 class="text-2xl font-bold mb-4">Order #{{ order.id }}</h1>
+
+<div class="grid md:grid-cols-3 gap-6">
+  
+  <!-- Items Section -->
+  <div class="md:col-span-2 card bg-white p-6 shadow-lg">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-xl font-semibold">Items</h2>
+      <div class="text-sm text-gray-500">Ordered on: {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}</div>
+    </div>
+
+    <div class="space-y-3">
+      {% for it in order.items %}
+      <div class="flex justify-between items-center p-2 rounded hover:bg-gray-50 transition">
+        <div class="font-medium">{{ it.product_title }} × {{ it.quantity }}</div>
+        <div class="font-semibold">{{ (it.price_each*it.quantity)|inr }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="border-t mt-4 pt-4 flex justify-between items-center font-bold text-lg">
+      <div>Total</div>
+      <div>{{ order.total_amount|inr }}</div>
+    </div>
+  </div>
+
+  <!-- Customer & Status Section -->
+  <div class="card bg-white p-6 shadow-lg space-y-4">
+    <h2 class="text-xl font-semibold mb-2">Customer Info</h2>
+    <div class="text-sm text-gray-700">
+      <p>{{ order.customer_name }}</p>
+      <p>{{ order.customer_email }}</p>
+      <p>{{ order.customer_phone }}</p>
+    </div>
+
+    <h2 class="text-xl font-semibold mt-4 mb-2">Address</h2>
+    <div class="text-sm text-gray-700">
+      <p>{{ order.address_line1 }}</p>
+      <p>{{ order.address_line2 }}</p>
+      <p>{{ order.city }}, {{ order.state }} {{ order.pincode }}</p>
+    </div>
+
+    <form method="post" action="{{ url_for('admin.order_status', oid=order.id) }}" class="space-y-3">
+      <label class="font-medium">Update Status</label>
+      <select name="status" class="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-blue-500 transition">
+        {% for s in ['Pending','Paid','Shipped','Delivered','Cancelled'] %}
+          <option value="{{ s }}" {% if s == order.status %}selected{% endif %}>{{ s }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="w-full bg-blue-600 text-white rounded py-2 font-semibold hover:bg-blue-700 transition">Update Status</button>
+    </form>
+
+    <a href="{{ url_for('admin.order_print', oid=order.id) }}" class="w-full block text-center border border-gray-300 rounded py-2 text-gray-700 hover:bg-gray-100 transition">Print Bill</a>
+  </div>
+</div>
+{% endblock %}

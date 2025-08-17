@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-6">🛒 Checkout</h1>
+
+<div class="grid md:grid-cols-2 gap-8">
+
+  <!-- Billing / Customer Details -->
+  <form id="checkout-form" method="post" class="bg-white p-6 rounded-2xl shadow-lg space-y-4">
+    {{ form.hidden_tag() }}
+    <h2 class="text-xl font-bold mb-4">Billing Details</h2>
+
+    <div class="space-y-2">
+      <label class="block">Full Name {{ form.customer_name(class_="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none") }}</label>
+      <label class="block">Email {{ form.customer_email(class_="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none") }}</label>
+      <label class="block">Phone {{ form.customer_phone(class_="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none") }}</label>
+      <label class="block">Address Line 1 {{ form.address_line1(class_="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none") }}</label>
+      <label class="block">Address Line 2 {{ form.address_line2(class_="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none") }}</label>
+      <div class="grid grid-cols-3 gap-3">
+        <label>City {{ form.city(class_="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none") }}</label>
+        <label>State {{ form.state(class_="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none") }}</label>
+        <label>PIN {{ form.pincode(class_="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-indigo-400 focus:outline-none") }}</label>
+      </div>
+    </div>
+
+    <!-- Payment Options -->
+    <h2 class="text-xl font-bold mt-6 mb-3">Payment Method</h2>
+    <div class="space-y-3">
+      <!-- Online Payment -->
+      <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:shadow-md transition">
+        <input type="radio" name="payment_method" value="online" class="form-radio h-5 w-5 text-indigo-600">
+        <span class="ml-3 flex items-center gap-2">
+          <strong>Online Payment</strong>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m-4-4h8" />
+          </svg>
+        </span>
+      </label>
+
+      <!-- COD Payment -->
+      <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:shadow-md transition">
+        <input type="radio" name="payment_method" value="cod" class="form-radio h-5 w-5 text-green-600">
+        <span class="ml-3 flex items-center gap-2">
+          <strong>Cash on Delivery</strong>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </span>
+      </label>
+
+    </div>
+
+    <button id="checkout-btn" type="submit" class="w-full mt-6 bg-black text-white rounded-full py-3 hover:bg-gray-800 transition">Proceed to Pay</button>
+  </form>
+
+  <!-- Order Summary -->
+  <div class="bg-white p-6 rounded-2xl shadow-lg flex flex-col items-center justify-center relative">
+    <h2 class="text-xl font-bold mb-4">Order Summary</h2>
+    <div class="text-3xl font-extrabold">{{ total|inr }}</div>
+    <p class="text-gray-500 mt-2">You can pay online via Razorpay (UPI, Card) or choose Cash on Delivery.</p>
+    <p class="text-green-600 mt-4 font-medium">Free delivery on orders above ₹599!</p>
+
+    <!-- Success Tick -->
+    <div id="order-success" class="absolute inset-0 bg-white bg-opacity-95 flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+      <svg class="h-28 w-28 text-green-500 animate-bounce mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+      </svg>
+      <h3 class="text-2xl font-bold text-green-600">Order Successful!</h3>
+      <p class="text-gray-600 mt-2">Thank you for choosing Cash on Delivery.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const checkoutForm = document.getElementById('checkout-form');
+const checkoutBtn = document.getElementById('checkout-btn');
+const orderSuccess = document.getElementById('order-success');
+
+const onlineRadio = document.querySelector('input[value="online"]');
+const codRadio = document.querySelector('input[value="cod"]');
+
+function updateButtonText() {
+  if(codRadio.checked){
+    checkoutBtn.textContent = "Order Now";
+  } else {
+    checkoutBtn.textContent = "Proceed to Pay";
+  }
+}
+
+codRadio.addEventListener('change', updateButtonText);
+onlineRadio.addEventListener('change', updateButtonText);
+
+checkoutForm.addEventListener('submit', (e)=>{
+  if(codRadio.checked){
+    e.preventDefault();
+    // Show success tick overlay
+    orderSuccess.classList.remove('opacity-0','pointer-events-none');
+  } else if(onlineRadio.checked){
+    // Proceed to Razorpay
+    console.log("Redirect to Razorpay");
+    // e.preventDefault(); // Uncomment if you want to trigger Razorpay via JS
+  }
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 px-4 sm:px-6 lg:px-8 py-10 font-[Poppins]">
+  
+  <!-- Page Title -->
+  <h1 class="text-4xl font-extrabold mb-10 text-gray-900 text-center tracking-tight drop-shadow-sm">
+    🛒 Your Cart
+  </h1>
+
+  <form method="post" action="{{ url_for('shop.update_cart') }}" class="max-w-6xl mx-auto space-y-6">
+    
+    {% for p, qty, price in items %}
+    <!-- Cart Item -->
+    <div class="group flex items-center gap-6 p-5 bg-white/80 backdrop-blur-xl rounded-3xl shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+      
+      <!-- Product Image -->
+      <div class="relative">
+        <img src="{{ p.image_url or ('https://picsum.photos/seed/' ~ p.id ~ '/200/160') }}" 
+             class="w-28 h-28 object-cover rounded-2xl shadow-sm group-hover:scale-105 transition duration-300">
+        {% if p.discount_percent > 0 %}
+        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full shadow">
+          -{{ p.discount_percent }}%
+        </span>
+        {% endif %}
+      </div>
+
+      <!-- Product Info -->
+      <div class="flex-1 flex flex-col justify-between">
+        <div class="text-lg font-semibold text-gray-900">{{ p.title }}</div>
+        <div class="mt-1 text-gray-500 text-sm">{{ p.description[:60] }}...</div>
+        <div class="mt-2 text-gray-700 font-bold">
+          {{ p.sale_price|inr }} <span class="text-sm text-gray-400">each</span>
+          {% if p.discount_percent > 0 %}
+          <span class="line-through text-gray-400 text-sm ml-2">{{ p.price|inr }}</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Quantity Controls -->
+      <div class="flex items-center gap-2 bg-gray-100 rounded-full px-2 py-1">
+        <button type="button" 
+                onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.dispatchEvent(new Event('change'))" 
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow hover:bg-gray-200 transition text-lg font-bold">−</button>
+        <input name="qty_{{p.id}}" type="number" min="0" value="{{ qty }}" 
+               class="w-12 text-center border-0 bg-transparent font-semibold focus:outline-none">
+        <button type="button" 
+                onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.dispatchEvent(new Event('change'))" 
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-white shadow hover:bg-gray-200 transition text-lg font-bold">+</button>
+      </div>
+
+      <!-- Remove Button -->
+      <a href="{{ url_for('shop.remove_from_cart', pid=p.id) }}" 
+         class="px-4 py-2 text-red-600 border border-red-300 rounded-xl hover:bg-red-50 hover:shadow transition text-sm font-medium">
+        ✖ Remove
+      </a>
+    </div>
+    {% else %}
+      <p class="text-gray-500 italic text-center text-lg">Your cart is empty. Start shopping 🛍</p>
+    {% endfor %}
+
+    {% if items %}
+    <!-- Cart Summary -->
+    <div class="mt-12 bg-white/90 backdrop-blur-xl border border-gray-200 rounded-3xl shadow-lg p-8 max-w-4xl mx-auto">
+      
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+        
+        <!-- Free Delivery Note -->
+        <div class="text-gray-600 text-sm">
+          {% if total < 599 %}
+            🛍 Add <span class="font-semibold">₹{{ 599 - total }}</span> more for free delivery
+          {% else %}
+            🎉 <span class="text-green-600 font-semibold">You qualify for free delivery!</span>
+          {% endif %}
+        </div>
+
+        <!-- Total & Actions -->
+        <div class="flex flex-col md:flex-row items-center gap-4">
+          <div class="text-2xl font-bold text-gray-900">Total: {{ total|inr }}</div>
+          <div class="flex gap-3">
+            <button type="submit" 
+                    class="px-6 py-2 border border-gray-300 rounded-xl hover:bg-gray-100 hover:shadow transition">
+              Update
+            </button>
+            <a href="{{ url_for('shop.checkout') }}" 
+               class="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl shadow hover:opacity-90 transition">
+              Checkout →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </form>
+</div>
+
+{% endblock %}

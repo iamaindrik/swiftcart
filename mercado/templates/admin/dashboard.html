@@ -1,0 +1,41 @@
+{% extends 'base.html' %}{% block content %}
+<h1 class="text-2xl font-bold mb-6">Admin Dashboard</h1>
+<div class="grid md:grid-cols-4 gap-4 mb-8">
+  <div class="card"><div class="text-sm text-gray-500">Products</div><div class="text-3xl font-extrabold">{{ stats.products }}</div></div>
+  <div class="card"><div class="text-sm text-gray-500">Orders</div><div class="text-3xl font-extrabold">{{ stats.orders }}</div></div>
+  <div class="card"><div class="text-sm text-gray-500">Pending</div><div class="text-3xl font-extrabold">{{ stats.pending }}</div></div>
+  <div class="card"><div class="text-sm text-gray-500">Paid</div><div class="text-3xl font-extrabold">{{ stats.paid }}</div></div>
+</div>
+<div class="grid md:grid-cols-2 gap-6">
+  <div class="card">
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="font-bold">Latest Orders</h2>
+      <a href="{{ url_for('admin.orders') }}" class="px-3 py-1 border rounded">View all</a>
+    </div>
+    <div class="space-y-2">
+      {% for o in latest_orders %}
+        <div class="flex justify-between">
+          <a class="underline" href="{{ url_for('admin.order_detail', oid=o.id) }}">#{{o.id}} {{ o.customer_name }}</a>
+          <span>{{ o.status }}</span>
+        </div>
+      {% else %}<div>No orders yet.</div>{% endfor %}
+    </div>
+  </div>
+  <div class="card">
+    <div class="flex justify-between items-center mb-3">
+      <h2 class="font-bold">Latest Products</h2>
+      <a href="{{ url_for('admin.products') }}" class="px-3 py-1 border rounded">Manage</a>
+    </div>
+    <div class="space-y-2">
+      {% for p in latest_products %}
+        <div class="flex items-center gap-3">
+          <img class="w-16 h-12 object-cover rounded" src="{{ p.image_url or ('https://picsum.photos/seed/' ~ p.id ~ '/200/160') }}">
+          <div class="flex-1">{{ p.title }}</div>
+          <div>{{ p.sale_price|inr }}</div>
+        </div>
+      {% else %}<div>No products yet.</div>{% endfor %}
+    </div>
+  </div>
+</div>
+<div class="mt-8"><a href="{{ url_for('admin.settings') }}" class="px-3 py-1 border rounded">Store Settings</a></div>
+{% endblock %}

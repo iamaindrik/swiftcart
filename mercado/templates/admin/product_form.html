@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{{ 'New' if is_new else 'Edit' }} Product</h1>
+
+<form method="post" class="grid md:grid-cols-2 gap-6">
+  {{ form.hidden_tag() }}
+
+  <!-- Left side -->
+  <div class="card space-y-3">
+    <label>
+      Title 
+      {{ form.title(class_="w-full border rounded px-3 py-2") }}
+    </label>
+
+    <label>
+      Description 
+      {{ form.description(class_="w-full border rounded px-3 py-2", rows=6) }}
+    </label>
+
+    <label>
+      Image URL 
+      {{ form.image_url(class_="w-full border rounded px-3 py-2") }}
+    </label>
+  </div>
+
+  <!-- Right side -->
+  <div class="card space-y-3">
+    <label>
+      Price 
+      {{ form.price(class_="w-full border rounded px-3 py-2") }}
+    </label>
+
+    <label>
+      Discount % 
+      {{ form.discount_percent(class_="w-full border rounded px-3 py-2") }}
+    </label>
+
+    <!-- Category selection -->
+    <label>
+      Category
+      {{ form.category_id(class_="w-full border rounded px-3 py-2") }}
+    </label>
+
+    <label class="inline-flex gap-2 items-center">
+      {{ form.is_featured() }} <span>Featured</span>
+    </label>
+
+    <button class="w-full bg-black text-white rounded py-2">
+      {{ 'Create' if is_new else 'Save' }}
+    </button>
+  </div>
+</form>
+{% endblock %}

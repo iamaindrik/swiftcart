@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invoice #{{ order.id }}</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 40px; color: #111; }
+  .header { display:flex; justify-content: space-between; align-items:center; }
+  .logo { font-weight: bold; font-size: 24px; color: #1d4ed8; }
+  .items { width: 100%; border-collapse: collapse; margin-top: 20px; }
+  .items th, .items td { border:1px solid #ddd; padding:8px; }
+  .items th { background:#f3f4f6; }
+  .total { margin-top: 10px; text-align: right; font-weight:bold; }
+  .info { margin-top: 20px; font-size: 14px; line-height: 1.5; }
+  .noprint { margin-top: 20px; padding: 8px 16px; cursor: pointer; background: #1d4ed8; color: #fff; border: none; border-radius: 6px; }
+  @media print { .noprint { display:none } }
+</style>
+</head>
+<body>
+
+  <!-- Logo and Invoice -->
+  <div class="header">
+    <div class="logo">SwiftCart</div>
+    <div>
+      <div>Invoice #: {{ order.id }}</div>
+      <div>Date: {{ order.created_at.strftime('%d-%m-%Y') if order.created_at else 'N/A' }}</div>
+      <div>Time: {{ order.created_at.strftime('%H:%M:%S') if order.created_at else 'N/A' }}</div>
+    </div>
+  </div>
+
+  <!-- Customer Info -->
+  <div class="info">
+    <h3>Bill To:</h3>
+    <div>{{ order.customer_name }}</div>
+    <div>{{ order.address_line1 }} {{ order.address_line2 }}</div>
+    <div>{{ order.city }}, {{ order.state }} {{ order.pincode }}</div>
+    <div>{{ order.customer_email }} • {{ order.customer_phone }}</div>
+  </div>
+
+  <!-- Items Table -->
+  <table class="items">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for it in order.items %}
+      <tr>
+        <td>{{ it.product_title }}</td>
+        <td>{{ it.quantity }}</td>
+        <td>₹{{ '%.2f'|format(it.price_each) }}</td>
+        <td>₹{{ '%.2f'|format(it.price_each * it.quantity) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Total -->
+  <div class="total">Total: ₹{{ '%.2f'|format(order.total_amount) }}</div>
+
+  <!-- Footer Info -->
+  <div class="info">
+    <strong>SwiftCart</strong><br>
+    📍 WB, India<br>
+    ✉ support@swiftcartshop.in<br>
+    📞 +91 8609204784<br>
+    <br>
+    Refunds are accepted within 7 days of delivery if the product is defective or damaged.
+  </div>
+
+  <!-- Print Button -->
+  <button class="noprint" onclick="window.print()">Print</button>
+
+</body>
+</html>

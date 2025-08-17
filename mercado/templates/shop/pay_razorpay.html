@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Complete Payment</h1>
+
+<p class="mb-4">Order #{{ order.id }} — Amount: <strong>{{ order.total_amount|inr }}</strong></p>
+
+<button id="rzp-pay" class="px-6 py-3 bg-black text-white rounded hover:bg-gray-800 transition">
+  Pay with Razorpay
+</button>
+
+<form id="cb" action="{{ url_for('shop.payment_callback') }}" method="post" class="hidden">
+  <input type="hidden" name="oid" value="{{ order.id }}">
+  <input type="hidden" id="razorpay_payment_id" name="razorpay_payment_id">
+</form>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+document.getElementById("rzp-pay").addEventListener("click", function() {
+    var options = {
+        key: "{{ key_id }}",
+        amount: {{ (order.total_amount * 100)|int }},  // Fixed int issue
+        currency: "INR",
+        name: "SwiftCart",
+        description: "Order #{{ order.id }}",
+        order_id: "{{ order.razorpay_order_id }}",
+        handler: function (response) {
+            document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+            document.getElementById('cb').submit();
+        },
+        theme: { color: "#111827" }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+});
+</script>
+{% endblock %}

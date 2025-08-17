@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block content %}
+<h1 class="text-2xl font-bold mb-4">Orders</h1>
+<div class="space-y-3">
+{% for o in orders %}
+  <div class="card flex justify-between items-center">
+    <div>
+      <a class="underline font-semibold" href="{{ url_for('admin.order_detail', oid=o.id) }}">#{{o.id}} {{ o.customer_name }}</a>
+      <div class="text-sm text-gray-600">{{ o.created_at.strftime('%Y-%m-%d %H:%M') }} • {{ o.total_amount|inr }}</div>
+    </div>
+    <div class="text-sm">{{ o.status }}</div>
+  </div>
+{% else %}<p>No orders yet.</p>{% endfor %}
+</div>
+{% endblock %}
