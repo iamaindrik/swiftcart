@@ -7,3 +7,6 @@ click==8.1.7
 Flask-SQLAlchemy==3.1.1
 Flask-Migrate==4.0.7
 python-dotenv==1.0.1
+flask_wtf
+email_validator
+
