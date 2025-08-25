@@ -217,3 +217,8 @@ def api_search():
             "image": p.image_url or f"https://picsum.photos/seed/{p.id}/100/100"
         } for p in products]
     return jsonify(results)
+
+@shop_bp.route("/policies")
+def policies():
+    # Just render one page with all policies
+    return render_template("shop/policies.html")
