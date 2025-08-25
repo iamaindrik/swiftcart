@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Policies - SwiftCart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-white font-[Poppins] text-gray-800">
+
+  <div class="max-w-5xl mx-auto py-16 px-6">
+    <h1 class="text-4xl font-bold text-center text-purple-700 mb-10">Our Policies</h1>
+
+    <!-- Tab buttons -->
+    <div class="flex flex-wrap justify-center gap-4 mb-10">
+      <button class="tab-btn bg-purple-100 text-purple-700 px-6 py-2 rounded-xl font-semibold hover:bg-purple-200 active" data-tab="refund">Refund Policy</button>
+      <button class="tab-btn bg-purple-100 text-purple-700 px-6 py-2 rounded-xl font-semibold hover:bg-purple-200" data-tab="shipping">Shipping Policy</button>
+      <button class="tab-btn bg-purple-100 text-purple-700 px-6 py-2 rounded-xl font-semibold hover:bg-purple-200" data-tab="terms">Terms & Conditions</button>
+      <button class="tab-btn bg-purple-100 text-purple-700 px-6 py-2 rounded-xl font-semibold hover:bg-purple-200" data-tab="privacy">Privacy Policy</button>
+    </div>
+
+    <!-- Refund Policy -->
+    <div id="refund" class="tab-content">
+      <h2 class="text-2xl font-semibold mb-4">Refund Policy</h2>
+      <p class="mb-4">At SwiftCart, customer satisfaction is our top priority. If you are not completely happy with your purchase, we’re here to help.</p>
+      <ul class="list-disc list-inside space-y-2 mb-6">
+        <li>Items must be returned within 7 days of delivery.</li>
+        <li>Items must be unused and in original packaging.</li>
+        <li>Refunds will be processed back to your original payment method.</li>
+      </ul>
+      <p class="text-gray-600">Contact: <a href="mailto:support@swiftcart.com" class="text-pink-600 underline">iamaindrik@gmail.com</a></p>
+    </div>
+
+    <!-- Shipping Policy -->
+    <div id="shipping" class="tab-content hidden">
+      <h2 class="text-2xl font-semibold mb-4">Shipping Policy</h2>
+      <p class="mb-4">We aim to deliver your orders quickly and safely to your doorstep.</p>
+      <ul class="list-disc list-inside space-y-2 mb-6">
+        <li>Standard delivery: 5-7 business days.</li>
+        <li>Express delivery: 2-3 business days (extra charges apply).</li>
+        <li>Tracking details will be shared via email/SMS.</li>
+      </ul>
+      <p class="mb-4">Orders above ₹599 qualify for free delivery across India.</p>
+    </div>
+
+    <!-- Terms & Conditions -->
+    <div id="terms" class="tab-content hidden">
+      <h2 class="text-2xl font-semibold mb-4">Terms & Conditions</h2>
+      <ul class="list-disc list-inside space-y-2 mb-6">
+        <li>You must provide accurate information during registration.</li>
+        <li>Orders once confirmed cannot be modified.</li>
+        <li>SwiftCart reserves the right to cancel orders in case of fraudulent activity.</li>
+        <li>All disputes are subject to Indian jurisdiction.</li>
+      </ul>
+    </div>
+
+    <!-- Privacy Policy -->
+    <div id="privacy" class="tab-content hidden">
+      <h2 class="text-2xl font-semibold mb-4">Privacy Policy</h2>
+      <p class="mb-4">Your privacy is very important to us. This policy outlines how SwiftCart handles your data:</p>
+      <ul class="list-disc list-inside space-y-2 mb-6">
+        <li>Personal details like name, email, phone number.</li>
+        <li>Order and payment information.</li>
+        <li>Browsing behavior for better shopping experience.</li>
+      </ul>
+      <p class="mb-4">We use data to improve services, process orders, and send updates/promotions.</p>
+    </div>
+  </div>
+
+  <!-- Tabs script -->
+  <script>
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-tab");
+
+        tabContents.forEach(content => {
+          content.classList.add("hidden");
+        });
+
+        tabButtons.forEach(b => b.classList.remove("bg-purple-300", "text-white", "active"));
+        
+        document.getElementById(target).classList.remove("hidden");
+        btn.classList.add("bg-purple-300", "text-white", "active");
+      });
+    });
+  </script>
+</body>
+</html>
