@@ -1,15 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mx-auto px-4 py-6">
+  <h1 class="text-xl sm:text-2xl font-bold mb-6">{{ category.name }}</h1>
 
-  <!-- Category Title -->
-  <h1 class="text-2xl font-bold mb-6">
-    {{ category.name }}
-  </h1>
-
-  <!-- Products Grid -->
   {% if products %}
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {% for p in products %}
       {% include "_card.html" %}
     {% endfor %}
@@ -17,6 +12,5 @@
   {% else %}
     <p class="text-gray-600">No products found in this category.</p>
   {% endif %}
-
 </div>
 {% endblock %}
