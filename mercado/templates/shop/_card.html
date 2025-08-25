@@ -2,7 +2,7 @@
 <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition transform hover:-translate-y-2 group h-full flex flex-col">
 
   <!-- Image Section (no cropping, full image shown) -->
-  <div class="relative bg-gray-100 overflow-hidden">
+  <div class="relative overflow-hidden">
     <a href="{{ url_for('shop.product_detail', pid=p.id) }}" class="block">
       <img
         src="{{ p.image_url or ('https://picsum.photos/seed/' ~ p.id ~ '/600/400') }}"
