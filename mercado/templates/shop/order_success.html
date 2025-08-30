@@ -1,7 +1,59 @@
-{% extends 'base.html' %}{% block content %}
-<div class="card">
-  <h1 class="text-2xl font-bold">Thank you!</h1>
-  <p class="mt-2">Your order <strong>#{{ order.id }}</strong> has been placed with status <strong>{{ order.status }}</strong>.</p>
-  <a class="mt-4 inline-block px-4 py-2 border rounded" href="{{ url_for('shop.home') }}">Back to Home</a>
+{% extends 'base.html' %}
+{% block content %}
+<div class="flex flex-col items-center justify-center min-h-[70vh] px-4">
+  <!-- Success Card -->
+  <div class="bg-white shadow-lg rounded-2xl p-8 max-w-md w-full text-center">
+
+    <!-- Tick Animation -->
+    <div class="flex items-center justify-center mb-6">
+      <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center relative animate-bounce">
+        <svg class="w-12 h-12 text-green-600 animate-checkmark" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Heading -->
+    <h1 class="text-2xl font-bold text-gray-800">Order Successful!</h1>
+    <p class="mt-2 text-gray-600">
+      Your order <strong>#{{ order.id }}</strong> has been placed successfully.<br>
+      Current status: 
+      {% if order.status == "cashondelivery" %}
+        <span class="font-semibold text-green-600">Cash on Delivery</span>
+      {% else %}
+        <span class="font-semibold">{{ order.status|capitalize }}</span>
+      {% endif %}
+    </p>
+
+    <!-- Button -->
+    <a href="{{ url_for('shop.home') }}"
+       class="mt-6 inline-block px-6 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700 transition">
+      Back to Home
+    </a>
+  </div>
 </div>
+
+<!-- Tick Animation Styles -->
+<style>
+@keyframes checkmark {
+  0% {
+    stroke-dasharray: 0, 100;
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dasharray: 100, 0;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+.animate-checkmark path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: checkmark 1s ease forwards;
+}
+</style>
 {% endblock %}
