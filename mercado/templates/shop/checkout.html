@@ -51,13 +51,21 @@
           <input type="radio" name="payment_method" value="online" class="form-radio h-5 w-5 text-indigo-600">
           <span class="ml-3 flex items-center gap-2 text-sm sm:text-base">
             <strong>Online Payment</strong>
+<<<<<<< HEAD
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m-4-4h8" />
+=======
+            <!-- Credit Card Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <rect x="2" y="5" width="20" height="14" rx="2" ry="2" stroke-width="2" />
+              <line x1="2" y1="10" x2="22" y2="10" stroke-width="2" />
+>>>>>>> c8d4618 (Updated header layout and fixed mobile search bar position)
             </svg>
           </span>
         </label>
 
         <!-- COD Payment -->
+<<<<<<< HEAD
         <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:shadow-md transition">
           <input type="radio" name="payment_method" value="cod" class="form-radio h-5 w-5 text-green-600">
           <span class="ml-3 flex items-center gap-2 text-sm sm:text-base">
@@ -67,6 +75,20 @@
             </svg>
           </span>
         </label>
+=======
+      <label class="flex items-center p-3 border rounded-xl cursor-pointer hover:shadow-md transition">
+        <input type="radio" name="payment_method" value="cod" class="form-radio h-5 w-5 text-green-600">
+        <span class="ml-3 flex items-center gap-2 text-sm sm:text-base">
+          <strong>Cash on Delivery</strong>
+          <!-- Cash Notes Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <rect x="2" y="6" width="20" height="12" rx="2" ry="2" stroke-width="2"/>
+            <circle cx="12" cy="12" r="3" stroke-width="2"/>
+            <path d="M6 12h0M18 12h0" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </label>
+>>>>>>> c8d4618 (Updated header layout and fixed mobile search bar position)
       </div>
 
       <button id="checkout-btn" type="submit" class="w-full mt-6 bg-black text-white rounded-full py-3 text-lg font-medium hover:bg-gray-800 transition">
@@ -115,13 +137,10 @@ onlineRadio.addEventListener('change', updateButtonText);
 
 checkoutForm.addEventListener('submit', (e)=>{
   if(codRadio.checked){
-    e.preventDefault();
-    // Show success tick overlay
-    orderSuccess.classList.remove('opacity-0','pointer-events-none');
+    // blank for flask
   } else if(onlineRadio.checked){
-    // Proceed to Razorpay
-    console.log("Redirect to Razorpay");
-    // e.preventDefault(); // Uncomment if you want to trigger Razorpay via JS
+    // Razorpay flow
+    // (keep e.preventDefault() 
   }
 });
 </script>
