@@ -45,7 +45,6 @@ def category(cid):
     products = Product.query.filter_by(category_id=cid).all()
     return render_template("shop/category.html", category=category, products=products)
 
-
 # ---------------- Product Detail ----------------
 @shop_bp.route("/p/<int:pid>")
 def product_detail(pid):
@@ -132,6 +131,7 @@ def checkout():
 
     form = AddressForm()
     if form.validate_on_submit():
+        payment_method = request.form.get("payment_method")  # NEW
         order = Order(
             user_id=current_user.id,
             customer_name=form.customer_name.data,
@@ -157,8 +157,16 @@ def checkout():
                 quantity=qty,
                 price_each=p.sale_price
             ))
-        db.session.commit()
 
+        # ----------- Handle COD -----------
+        if payment_method == "cod":
+            order.status = "cashondelivery"
+            db.session.commit()
+            session["cart"] = {}
+            flash("Your order has been placed with Cash on Delivery!", "success")
+            return redirect(url_for("shop.order_success", oid=order.id))
+
+        # ----------- Handle Online -----------
         settings = AdminSettings.query.first()
         key_id = (settings.razorpay_key_id if settings else None) or current_app.config.get("RAZORPAY_KEY_ID", "")
         key_secret = (settings.razorpay_key_secret if settings else None) or current_app.config.get("RAZORPAY_KEY_SECRET", "")
@@ -175,10 +183,11 @@ def checkout():
             db.session.commit()
             return render_template("shop/pay_razorpay.html", order=order, key_id=key_id)
         else:
+            # fallback if Razorpay keys not set
             order.status = "Paid"
             db.session.commit()
             session["cart"] = {}
-            flash("Order placed (COD mode).", "success")
+            flash("Order placed successfully.", "success")
             return redirect(url_for("shop.order_success", oid=order.id))
 
     return render_template("shop/checkout.html", form=form, total=total)
@@ -220,5 +229,4 @@ def api_search():
 
 @shop_bp.route("/policies")
 def policies():
-    # Just render one page with all policies
     return render_template("shop/policies.html")
