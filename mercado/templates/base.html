@@ -33,16 +33,17 @@
 
 <!-- Header -->
 <!-- Header -->
+<!-- Header -->
 <header class="bg-white border-b sticky top-0 z-40 shadow-sm">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col sm:flex-row items-center justify-between gap-4">
 
     <!-- Brand -->
-    <a href="{{ url_for('shop.home') }}" class="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center">
+    <a href="{{ url_for('shop.home') }}" class="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center order-1">
       <span class="text-blue-600">Swift</span><span class="text-gray-900">Cart</span>
     </a>
 
     <!-- Search (always full width on mobile, center on desktop) -->
-    <div class="relative w-full sm:flex-1 max-w-2xl order-2 sm:order-none">
+    <div class="relative w-full sm:flex-1 max-w-2xl order-2 sm:order-2">
       <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
         <i data-feather="search" class="w-4 h-4"></i>
       </span>
@@ -52,7 +53,7 @@
     </div>
 
     <!-- Right Icons -->
-    <div class="flex items-center gap-3 order-3 sm:order-none">
+    <div class="flex items-center gap-3 order-3 sm:order-3 mt-2 sm:mt-0">
       <!-- 24/7 Support -->
       <a href="tel:+918609294784" class="flex items-center p-2 rounded hover:bg-green-100" title="24/7 Support">
         <i data-feather="headphones" class="w-6 h-6 text-green-500"></i>
@@ -118,6 +119,7 @@
   </nav>
   {% endif %}
 </header>
+
 
 
 <!-- Main -->
