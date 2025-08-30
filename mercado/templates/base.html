@@ -32,18 +32,16 @@
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
 
 <!-- Header -->
-<!-- Header -->
-<!-- Header -->
 <header class="bg-white border-b sticky top-0 z-40 shadow-sm">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
 
-    <!-- Logo (Left on Desktop, Left on Mobile) -->
-    <a href="{{ url_for('shop.home') }}" class="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center order-1">
+    <!-- Brand -->
+    <a href="{{ url_for('shop.home') }}" class="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center">
       <span class="text-blue-600">Swift</span><span class="text-gray-900">Cart</span>
     </a>
 
-    <!-- Search Bar (Full width on mobile, centered on desktop) -->
-    <div class="relative w-full sm:flex-1 max-w-2xl sm:mx-6 order-3 sm:order-2">
+    <!-- Search -->
+    <div class="relative flex-1 w-full sm:w-auto max-w-2xl mx-auto order-3 sm:order-2 mt-2 sm:mt-0">
       <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-gray-400">
         <i data-feather="search" class="w-4 h-4"></i>
       </span>
@@ -53,7 +51,7 @@
     </div>
 
     <!-- Right Icons -->
-    <div class="flex items-center gap-3 order-2 sm:order-3">
+    <div class="flex items-center gap-3 ml-auto order-2 sm:order-3">
       <!-- 24/7 Support -->
       <a href="tel:+918609294784" class="flex items-center p-2 rounded hover:bg-green-100" title="24/7 Support">
         <i data-feather="headphones" class="w-6 h-6 text-green-500"></i>
@@ -119,8 +117,6 @@
   </nav>
   {% endif %}
 </header>
-
-
 
 <!-- Main -->
 <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
