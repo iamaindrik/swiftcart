@@ -103,4 +103,3 @@ class OrderItem(db.Model):
     quantity = db.Column(db.Integer, default=1)
     price_each = db.Column(db.Float, default=0.0)
 
-    product = db.relationship("Product", backref="order_items")
