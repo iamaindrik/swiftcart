@@ -230,3 +230,23 @@ def api_search():
 @shop_bp.route("/policies")
 def policies():
     return render_template("shop/policies.html")
+
+
+# ---------------- All Products Page ----------------
+@shop_bp.route("/shop")
+def shop_all():
+    filter_type = request.args.get("filter")
+
+    if filter_type == "sale":
+        products = Product.query.filter(Product.discount_percent > 0).order_by(Product.id.desc()).all()
+        title = "Hot Deals"
+    elif filter_type == "new":
+        products = Product.query.order_by(Product.id.desc()).all()
+        title = "Fresh Arrivals"
+    else:
+        products = Product.query.order_by(Product.id.desc()).all()
+        title = "All Products"
+
+    return render_template("shop/shop_all.html", products=products, title=title)
+
+
