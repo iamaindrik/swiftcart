@@ -74,35 +74,7 @@ Visit 👉 `http://127.0.0.1:5000/`
 
 ---
 
-## 📸 Screenshots  
 
-### 🏬 Homepage  
-![Homepage](https://raw.githubusercontent.com/iamaindrik/swiftcart/main/screenshots/home.png)  
-
-### 🛍️ Product Page  
-![Product Page](https://raw.githubusercontent.com/iamaindrik/swiftcart/main/screenshots/product.png)  
-
-### 🛒 Cart  
-![Cart](https://raw.githubusercontent.com/iamaindrik/swiftcart/main/screenshots/cart.png)  
-
----
-
-## 📦 Project Structure  
-
-```
-swiftcart/
-│── app/
-│   ├── models.py        # Database models
-│   ├── routes.py        # App routes
-│   ├── templates/       # Jinja2 templates
-│   ├── static/          # CSS, JS, Images
-│── migrations/          # Database migrations
-│── requirements.txt     # Dependencies
-│── config.py            # App configuration
-│── run.py               # Entry point
-```
-
----
 
 ## 🤝 Contributing  
 
