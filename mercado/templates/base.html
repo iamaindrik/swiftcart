@@ -25,15 +25,27 @@
     body { font-family: 'Poppins', sans-serif; }
     .img-cover { width:100%; height:160px; object-fit:cover; border-radius:.75rem; }
     .card { border-radius:1rem; background:#fff; box-shadow:0 4px 20px rgba(0,0,0,.06); padding:1rem; }
-    .icon-btn { display:inline-flex; align-items:center; justify-content:center; }
+    .icon-btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:.5rem .75rem; border-radius:.5rem; font-size:.875rem; font-weight:500; transition:.2s; position:relative; }
     footer svg { display: block; }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up {
+      animation: fadeInUp 0.6s ease-out both;
+    }
+    .flash-msg {
+      animation: fadeInUp 0.5s ease-out both;
+    }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen">
 
 <!-- Header -->
 <header class="bg-white border-b sticky top-0 z-40 shadow-sm">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4 flex-wrap">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-3 flex-wrap">
 
     <!-- Brand -->
     <a href="{{ url_for('shop.home') }}" class="text-xl sm:text-2xl font-extrabold tracking-tight flex items-center">
@@ -50,55 +62,52 @@
       <div id="searchResults" class="absolute bg-white shadow-lg mt-1 w-full rounded-lg hidden z-50"></div>
     </div>
 
-    <!-- Right Icons -->
+    <!-- Right Buttons -->
     <div class="flex items-center gap-3 ml-auto order-2 sm:order-3">
-      <!-- 24/7 Support -->
-      <a href="tel:+918609294784" class="flex items-center p-2 rounded hover:bg-green-100" title="24/7 Support">
+      <!-- Support (icon only) -->
+      <a href="tel:+918609294784" class="p-2 rounded hover:bg-green-100" title="Support">
         <i data-feather="headphones" class="w-6 h-6 text-green-500"></i>
       </a>
 
-      <!-- Wishlist -->
-      <a href="{{ url_for('shop.wishlist') }}" class="relative" title="Wishlist">
+      <!-- Wishlist (icon only + badge) -->
+      <a href="{{ url_for('shop.wishlist') }}" class="relative p-2 rounded hover:bg-pink-100" title="Wishlist">
         <i data-feather="heart" class="w-6 h-6 text-pink-500"></i>
         {% if wishlist_count|default(0) > 0 %}
-        <span class="absolute -top-2 -right-2 bg-pink-500 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
+        <span class="absolute -top-1 -right-1 bg-pink-500 text-white font-bold text-[11px] w-5 h-5 flex items-center justify-center rounded-full shadow-md">
           {{ wishlist_count }}
         </span>
         {% endif %}
       </a>
 
-      <!-- Cart -->
-      <a href="{{ url_for('shop.view_cart') }}" class="relative" title="Cart">
-        <i data-feather="shopping-cart" class="w-6 h-6 text-blue-600"></i>
+      <!-- Cart (text + red bold badge at top-right) -->
+      <a href="{{ url_for('shop.view_cart') }}" class="icon-btn text-blue-600 hover:bg-blue-100 relative">
+        <i data-feather="shopping-cart" class="w-5 h-5"></i> <span>Cart</span>
         {% if cart_count|default(0) > 0 %}
-        <span class="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full">
+        <span class="absolute -top-2 -right-2 bg-red-600 text-white font-bold text-[11px] w-5 h-5 flex items-center justify-center rounded-full shadow-md">
           {{ cart_count }}
         </span>
         {% endif %}
       </a>
 
-      <!-- Welcome Message -->
+      <!-- Auth / User -->
       {% if current_user.is_authenticated %}
-        <span class="hidden sm:inline text-gray-700 text-sm font-medium">
-          👋 Welcome, {{ current_user.name }}!
-        </span>
-      {% endif %}
+        <span class="hidden sm:inline text-gray-700 text-sm font-medium">👋 Welcome, {{ current_user.name }}!</span>
 
-      <!-- Admin -->
-      {% if current_user.is_authenticated and current_user.is_admin %}
-        <a href="{{ url_for('admin.dashboard') }}" class="icon-btn" title="Admin">
-          <i data-feather="settings" class="w-6 h-6 text-gray-700"></i>
+        <!-- Admin -->
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('admin.dashboard') }}" class="icon-btn text-gray-700 hover:bg-gray-200">
+          <i data-feather="settings" class="w-5 h-5"></i> <span>Admin</span>
         </a>
-      {% endif %}
+        {% endif %}
 
-      <!-- Auth -->
-      {% if current_user.is_authenticated %}
-        <a href="{{ url_for('auth.logout') }}" class="icon-btn" title="Logout">
-          <i data-feather="log-out" class="w-6 h-6 text-gray-700 hover:text-red-500"></i>
+        <!-- Logout -->
+        <a href="{{ url_for('auth.logout') }}" class="icon-btn bg-red-50 text-red-600 hover:bg-red-100">
+          <i data-feather="log-out" class="w-5 h-5"></i> <span>Logout</span>
         </a>
       {% else %}
-        <a href="{{ url_for('auth.register') }}" class="icon-btn ml-1" title="Sign up">
-          <i data-feather="user-plus" class="w-6 h-6 text-gray-700 hover:text-green-600"></i>
+        <!-- Signup / Login as single button -->
+        <a href="{{ url_for('auth.register') }}" class="icon-btn text-blue-600 hover:bg-blue-100">
+          <i data-feather="user" class="w-5 h-5"></i> <span>Login / Sign Up</span>
         </a>
       {% endif %}
     </div>
@@ -120,19 +129,39 @@
 
 <!-- Main -->
 <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  <!-- Flash Messages -->
   {% with messages = get_flashed_messages(with_categories=True) %}
     {% if messages %}
-      <div class="space-y-2 mb-6">
+      <div class="space-y-3 mb-8">
         {% for cat, msg in messages %}
-          <div class="p-3 rounded {% if cat=='success' %}bg-green-100{% elif cat=='danger' %}bg-red-100{% else %}bg-yellow-100{% endif %}">
-            {{ msg }}
+          <div 
+            class="flash-msg flex items-center gap-3 p-4 rounded-xl shadow-md border-l-4
+              {% if cat == 'success' %} bg-green-50 border-green-500 text-green-700 
+              {% elif cat == 'danger' %} bg-red-50 border-red-500 text-red-700 
+              {% else %} bg-yellow-50 border-yellow-500 text-yellow-700 {% endif %}">
+            
+            <!-- Icon -->
+            {% if cat == 'success' %}
+              <i data-feather="check-circle" class="w-5 h-5"></i>
+            {% elif cat == 'danger' %}
+              <i data-feather="x-circle" class="w-5 h-5"></i>
+            {% else %}
+              <i data-feather="alert-circle" class="w-5 h-5"></i>
+            {% endif %}
+            
+            <!-- Message -->
+            <span class="font-medium">{{ msg }}</span>
           </div>
         {% endfor %}
       </div>
     {% endif %}
   {% endwith %}
 
-  {% block content %}{% endblock %}
+  <!-- Page Content -->
+  <div class="animate-fade-in-up">
+    {% block content %}{% endblock %}
+  </div>
 </main>
 
 <!-- Footer -->
