@@ -1,4 +1,4 @@
-# 🛒 SwiftCart – E-Commerce Web App  
+9# 🛒 SwiftCart – E-Commerce Web App  
 
 SwiftCart is a modern, lightweight, and responsive **Flask-based e-commerce platform** designed for fast and simple online shopping experiences. It features a clean UI, product management, and a smooth checkout flow.  
 
@@ -40,52 +40,7 @@ SwiftCart is a modern, lightweight, and responsive **Flask-based e-commerce plat
 
 ---
 
-## ⚡ Installation & Setup  
 
-Clone the repository:  
-```bash
-git clone https://github.com/your-username/swiftcart.git
-cd swiftcart
-```
-
-Create & activate virtual environment:  
-```bash
-python -m venv venv
-source venv/bin/activate   # On Linux/Mac
-venv\Scripts\activate      # On Windows
-```
-
-Install dependencies:  
-```bash
-pip install -r requirements.txt
-```
-
-Initialize database:  
-```bash
-flask db upgrade
-```
-
-Run the app locally:  
-```bash
-flask run
-```
-
-Visit 👉 `http://127.0.0.1:5000/`  
-
----
-
-
-
-## 🤝 Contributing  
-
-Pull requests are welcome!  
-If you’d like to improve SwiftCart, feel free to fork this repo and submit a PR.  
-
----
-
-## 📜 License  
-
-This project is licensed under the **MIT License** – you’re free to use and modify it.  
 
 ---
 
