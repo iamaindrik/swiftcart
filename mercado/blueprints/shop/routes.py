@@ -8,6 +8,32 @@ from ...config import Config
 
 shop_bp = Blueprint('shop', __name__, template_folder='../../templates/shop')
 
+from datetime import datetime
+
+@shop_bp.app_context_processor
+def inject_counts_and_globals():
+    cart = session.get("cart", {}) or {}
+    # sum of quantities in cart, not just number of distinct items
+    try:
+        cart_count = sum(int(q) for q in cart.values())
+    except Exception:
+        cart_count = 0
+
+    wishlist = session.get("wishlist", []) or []
+    wishlist_count = len(wishlist)
+
+    # optional: categories & current year available to all templates
+    categories = Category.query.order_by(Category.name.asc()).all()
+    current_year = datetime.utcnow().year
+
+    return {
+        "cart_count": cart_count,
+        "wishlist_count": wishlist_count,
+        "categories": categories,
+        "current_year": current_year,
+    }
+
+
 @shop_bp.app_template_filter('inr')
 def inr(amount):
     return f"₹{amount:,.2f}"
@@ -231,7 +257,6 @@ def api_search():
 def policies():
     return render_template("shop/policies.html")
 
-
 # ---------------- All Products Page ----------------
 @shop_bp.route("/shop")
 def shop_all():
@@ -248,5 +273,4 @@ def shop_all():
         title = "All Products"
 
     return render_template("shop/shop_all.html", products=products, title=title)
-
 
