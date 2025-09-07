@@ -1,35 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!-- Custom CSS for hiding scrollbars -->
-<style>
-  /* Hide scrollbar but keep scroll */
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-  .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE & Edge */
-    scrollbar-width: none;     /* Firefox */
-  }
-</style>
-
 <!-- Hero / Store Header -->
-<div class="text-center mb-12 px-4">
-  <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
+<div class="text-center mb-12 px-4 font-sans">
+  <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight 
+             text-gray-900 drop-shadow-md">
     {{ settings.store_name }}
   </h1>
-  <p class="text-base sm:text-lg text-gray-600 mt-2 italic">
+  <p class="text-lg sm:text-xl text-gray-600 mt-3 italic tracking-wide">
     {{ settings.brand_subtext }}
   </p>
-  <div class="mt-4 animate-[fadeInUp_1.6s_ease-out]">
+  
+  <div class="mt-6 animate-[fadeInUp_1.6s_ease-out]">
     <a href="/shop" 
-       class="inline-block px-7 py-3 text-white font-semibold text-lg rounded-full 
-              bg-gradient-to-r from-blue-600 to-pink-500 shadow-lg hover:shadow-xl 
+       class="inline-block px-5 py-2 text-white font-medium text-base rounded-full 
+              bg-black shadow-[0_0_10px_rgba(0,0,0,0.8)] hover:shadow-[0_0_20px_rgba(0,0,0,1)] 
               transform hover:scale-105 transition">
        Shop Now →
     </a>
   </div>
 </div>
+
+
+  <!-- CTA Button -->
+
 
 <!-- Featured Products -->
 {% if featured %}
@@ -37,18 +31,7 @@
   <h2 class="text-2xl sm:text-3xl font-semibold mb-6 flex items-center">
     <i class="fas fa-star text-yellow-400 mr-2"></i> Featured
   </h2>
-
-  <!-- Mobile: Horizontal scroll with snapping -->
-  <div class="flex gap-4 overflow-x-auto pb-4 sm:hidden scrollbar-hide snap-x snap-mandatory">
-    {% for p in featured %}
-    <div class="min-w-[140px] flex-shrink-0 snap-start">
-      {% include 'shop/_card.html' %}
-    </div>
-    {% endfor %}
-  </div>
-
-  <!-- Desktop: Grid -->
-  <div class="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {% for p in featured %}
       {% include 'shop/_card.html' %}
     {% endfor %}
@@ -69,17 +52,7 @@
     </a>
   </div>
 
-  <!-- Mobile: Horizontal scroll with snapping -->
-  <div class="flex gap-4 overflow-x-auto pb-4 sm:hidden scrollbar-hide snap-x snap-mandatory">
-    {% for p in sale %}
-    <div class="min-w-[140px] flex-shrink-0 snap-start">
-      {% include 'shop/_card.html' %}
-    </div>
-    {% endfor %}
-  </div>
-
-  <!-- Desktop: Grid -->
-  <div class="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {% for p in sale %}
       <div class="transform hover:scale-105 transition">
         {% include 'shop/_card.html' %}
@@ -101,17 +74,7 @@
     </a>
   </div>
 
-  <!-- Mobile: Horizontal scroll with snapping -->
-  <div class="flex gap-4 overflow-x-auto pb-4 sm:hidden scrollbar-hide snap-x snap-mandatory">
-    {% for p in latest[:6] %}
-    <div class="min-w-[140px] flex-shrink-0 snap-start">
-      {% include 'shop/_card.html' %}
-    </div>
-    {% endfor %}
-  </div>
-
-  <!-- Desktop: Grid -->
-  <div class="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     {% for p in latest[:4] %}
       <div class="transform hover:-translate-y-2 transition">
         {% include 'shop/_card.html' %}
